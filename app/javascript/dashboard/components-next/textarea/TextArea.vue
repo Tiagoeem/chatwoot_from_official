@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, nextTick, watch } from 'vue';
+import { useStore } from 'vuex';
 import {
   appendSignature,
   removeSignature,
@@ -36,11 +37,13 @@ const emit = defineEmits(['update:modelValue']);
 
 const textareaRef = ref(null);
 const isFocused = ref(false);
+const store = useStore();
 
 const characterCount = computed(() => props.modelValue.length);
 const cleanedSignature = computed(() =>
   extractTextFromMarkdown(props.signature)
 );
+const agentName = computed(() => store.getters.getCurrentUser.name);
 
 const messageClass = computed(() => {
   switch (props.messageType) {
@@ -68,7 +71,8 @@ const setCursor = () => {
 
   const bodyWithoutSignature = removeSignature(
     props.modelValue,
-    cleanedSignature.value
+    cleanedSignature.value,
+    agentName.value
   );
   const bodyEndsAt = bodyWithoutSignature.trimEnd().length;
 
@@ -79,8 +83,12 @@ const setCursor = () => {
 const toggleSignatureInEditor = signatureEnabled => {
   if (!props.allowSignature) return;
   const valueWithSignature = signatureEnabled
-    ? appendSignature(props.modelValue, cleanedSignature.value)
-    : removeSignature(props.modelValue, cleanedSignature.value);
+    ? appendSignature(props.modelValue, cleanedSignature.value, agentName.value)
+    : removeSignature(
+        props.modelValue,
+        cleanedSignature.value,
+        agentName.value
+      );
   emit('update:modelValue', valueWithSignature);
 
   nextTick(() => {

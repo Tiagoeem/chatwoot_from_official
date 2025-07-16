@@ -7,12 +7,6 @@ import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 
 /**
- * The delimiter used to separate the signature from the rest of the body.
- * @type {string}
- */
-export const SIGNATURE_DELIMITER = '--';
-
-/**
  * Parse and Serialize the markdown text to remove any extra spaces or new lines
  */
 export function cleanSignature(signature) {
@@ -38,87 +32,57 @@ export function cleanSignature(signature) {
 }
 
 /**
- * Adds the signature delimiter to the beginning of the signature.
- *
- * @param {string} signature - The signature to add the delimiter to.
- * @returns {string} - The signature with the delimiter added.
- */
-function appendDelimiter(signature) {
-  return `${SIGNATURE_DELIMITER}\n\n${cleanSignature(signature)}`;
-}
-
-/**
- * Check if there's an unedited signature at the end of the body
- * If there is, return the index of the signature, If there isn't, return -1
+ * Check if there's a signature at the beginning of the body.
+ * If there is, return true, otherwise return false.
  *
  * @param {string} body - The body to search for the signature.
  * @param {string} signature - The signature to search for.
- * @returns {number} - The index of the last occurrence of the signature in the body, or -1 if not found.
+ * @param {string} agentName - The name of the agent to search for.
+ * @returns {boolean} - True if the signature is found, otherwise false.
  */
-export function findSignatureInBody(body, signature) {
-  const trimmedBody = body.trimEnd();
+export function findSignatureInBody(body, signature, agentName) {
+  const trimmedBody = body.trimStart();
   const cleanedSignature = cleanSignature(signature);
+  const signatureWithAgent = `${agentName}: ${cleanedSignature}`;
 
-  // check if body ends with signature
-  if (trimmedBody.endsWith(cleanedSignature)) {
-    return body.lastIndexOf(cleanedSignature);
-  }
-
-  return -1;
+  // check if body starts with signature
+  return trimmedBody.startsWith(signatureWithAgent);
 }
 
 /**
- * Appends the signature to the body, separated by the signature delimiter.
+ * Appends the signature to the beginning of the body.
  *
  * @param {string} body - The body to append the signature to.
  * @param {string} signature - The signature to append.
+ * @param {string} agentName - The name of the agent.
  * @returns {string} - The body with the signature appended.
  */
-export function appendSignature(body, signature) {
+export function appendSignature(body, signature, agentName) {
   const cleanedSignature = cleanSignature(signature);
   // if signature is already present, return body
-  if (findSignatureInBody(body, cleanedSignature) > -1) {
+  if (findSignatureInBody(body, cleanedSignature, agentName)) {
     return body;
   }
 
-  return `${body.trimEnd()}\n\n${appendDelimiter(cleanedSignature)}`;
+  return `${agentName}: ${body}`;
 }
 
 /**
- * Removes the signature from the body, along with the signature delimiter.
+ * Removes the signature from the body.
  *
  * @param {string} body - The body to remove the signature from.
  * @param {string} signature - The signature to remove.
+ * @param {string} agentName - The name of the agent.
  * @returns {string} - The body with the signature removed.
  */
-export function removeSignature(body, signature) {
-  // this will find the index of the signature if it exists
-  // Regardless of extra spaces or new lines after the signature, the index will be the same if present
+export function removeSignature(body, signature, agentName) {
   const cleanedSignature = cleanSignature(signature);
-  const signatureIndex = findSignatureInBody(body, cleanedSignature);
-
-  // no need to trim the ends here, because it will simply be removed in the next method
-  let newBody = body;
-
-  // if signature is present, remove it and trim it
-  // trimming will ensure any spaces or new lines before the signature are removed
-  // This means we will have the delimiter at the end
-  if (signatureIndex > -1) {
-    newBody = newBody.substring(0, signatureIndex).trimEnd();
+  if (findSignatureInBody(body, cleanedSignature, agentName)) {
+    const signatureWithAgent = `${agentName}: `;
+    return body.substring(signatureWithAgent.length);
   }
 
-  // let's find the delimiter and remove it
-  const delimiterIndex = newBody.lastIndexOf(SIGNATURE_DELIMITER);
-  if (
-    delimiterIndex !== -1 &&
-    delimiterIndex === newBody.length - SIGNATURE_DELIMITER.length // this will ensure the delimiter is at the end
-  ) {
-    // if the delimiter is at the end, remove it
-    newBody = newBody.substring(0, delimiterIndex);
-  }
-
-  // return the value
-  return newBody;
+  return body;
 }
 
 /**

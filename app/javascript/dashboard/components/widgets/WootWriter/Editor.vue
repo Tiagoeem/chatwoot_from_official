@@ -53,6 +53,7 @@ import {
   scrollCursorIntoView,
   setURLWithQueryAndSize,
 } from 'dashboard/helper/editorHelper';
+import { useStore } from 'vuex';
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
@@ -97,6 +98,7 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+const store = useStore();
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
@@ -280,12 +282,14 @@ function isBodyEmpty(content) {
   // if the signature is present, we need to remove it before checking
   // note that we don't update the editorView, so this is safe
   const bodyWithoutSignature = props.signature
-    ? removeSignatureHelper(content, props.signature)
+    ? removeSignatureHelper(content, props.signature, agentName.value)
     : content;
 
   // trimming should remove all the whitespaces, so we can check the length
   return bodyWithoutSignature.trim().length === 0;
 }
+
+const agentName = computed(() => store.getters.getCurrentUser.name);
 
 function handleEmptyBodyWithSignature() {
   const { schema, tr } = state;
@@ -339,7 +343,7 @@ function addSignature() {
   // see if the content is empty, if it is before appending the signature
   // we need to add a paragraph node and move the cursor at the start of the editor
   const contentWasEmpty = isBodyEmpty(content);
-  content = appendSignature(content, props.signature);
+  content = appendSignature(content, props.signature, agentName.value);
   // need to reload first, ensuring that the editorView is updated
   reloadState(content);
 
@@ -351,7 +355,11 @@ function addSignature() {
 function removeSignature() {
   if (!props.signature) return;
   let content = props.modelValue;
-  content = removeSignatureHelper(content, props.signature);
+  content = removeSignatureHelper(
+    content,
+    props.signature,
+    agentName.value
+  );
   // reload the state, ensuring that the editorView is updated
   reloadState(content);
 }
