@@ -51,7 +51,20 @@ class GlobalConfig
     end
 
     def db_fallback(config_key)
+      custom_config_value = get_from_custom_config(config_key)
+      return custom_config_value if custom_config_value.present?
+
       InstallationConfig.find_by(name: config_key)&.value
+    end
+
+    def get_from_custom_config(config_key)
+      case config_key
+      when 'BRAND_NAME'
+        Rails.application.config.brand['name'] if Rails.application.config.respond_to?(:brand)
+      when 'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL'
+        key = config_key.split('_').last.downcase
+        Rails.application.config.brand["logo_#{key}"] if Rails.application.config.respond_to?(:brand)
+      end
     end
   end
 end

@@ -19,9 +19,11 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
+import themeMixin from 'dashboard/mixins/theme';
 
 export default {
   name: 'App',
+  mixins: [themeMixin],
 
   components: {
     AddAccountModal,

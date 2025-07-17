@@ -138,3 +138,44 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 
 
 *Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
+
+## Customization
+
+You can customize the branding and theme of your Chatwoot installation by creating a `custom_config.yml` file in the root of your project.
+
+### `custom_config.yml`
+
+```yaml
+brand:
+  name: "Your Brand"
+  logo: "/brand-assets/logo.svg"
+  logo_dark: "/brand-assets/logo_dark.svg"
+  logo_thumbnail: "/brand-assets/logo_thumbnail.svg"
+
+theme:
+  colors:
+    woot:
+      25: "#f0f7ff"
+      50: "#e0efff"
+      75: "#cce7ff"
+      100: "#b8deff"
+      200: "#a3d5ff"
+      300: "#7bc4ff"
+      400: "#52b3ff"
+      500: "#29a1ff"
+      600: "#008fff"
+      700: "#007de6"
+      800: "#006ccc"
+      900: "#005ab3"
+```
+
+### Brand
+
+*   `name`: The name of your brand.
+*   `logo`: The path to your logo for light theme.
+*   `logo_dark`: The path to your logo for dark theme.
+*   `logo_thumbnail`: The path to your thumbnail logo.
+
+### Theme
+
+*   `colors`: A map of colors to be used in the application. The `woot` color is the primary color. You can define your own color palette here.

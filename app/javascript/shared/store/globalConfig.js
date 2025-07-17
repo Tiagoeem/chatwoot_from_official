@@ -51,9 +51,24 @@ export const getters = {
   isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
 };
 
-export const actions = {};
+import ThemeAPI from 'dashboard/api/theme';
 
-export const mutations = {};
+export const actions = {
+  fetchThemeColors: async ({ commit }) => {
+    try {
+      const response = await ThemeAPI.get();
+      commit('setThemeColors', response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
+};
+
+export const mutations = {
+  setThemeColors: ($state, colors) => {
+    $state.themeColors = colors;
+  },
+};
 
 export default {
   namespaced: true,
