@@ -1,5 +1,5 @@
 {
-  "name": "@chatwoot/chatwoot",
+  "name": "@<%= Rails.application.config.brand['name'].downcase.gsub(' ', '-') %>/<%= Rails.application.config.brand['name'].downcase.gsub(' ', '-') %>",
   "version": "4.4.0",
   "license": "MIT",
   "scripts": {

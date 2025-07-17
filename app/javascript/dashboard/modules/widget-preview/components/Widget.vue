@@ -182,7 +182,7 @@ export default {
       >
         <img
           v-if="!isWidgetVisible"
-          src="~dashboard/assets/images/bubble-logo.svg"
+          :src="globalConfig.logoThumbnail"
           alt=""
           draggable="false"
           class="w-6 h-6 mx-auto"

@@ -108,6 +108,8 @@ initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
 
+store.dispatch('globalConfig/fetchThemeColors');
+
 window.onload = () => {
   app.mount('#app');
 };

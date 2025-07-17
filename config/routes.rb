@@ -346,6 +346,9 @@ Rails.application.routes.draw do
               post :add_participant_to_meeting
             end
           end
+      namespace :theme do
+        get :colors, to: 'theme#colors'
+      end
         end
       end
     end

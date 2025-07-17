@@ -1,9 +1,9 @@
 {
-  "name": "Chatwoot",
-  "description": "Chatwoot is a customer support tool for instant messaging channels",
-  "website": "https://www.chatwoot.com/",
-  "repository": "https://github.com/chatwoot/chatwoot",
-  "logo": "https://app.chatwoot.com/brand-assets/logo_thumbnail.svg",
+  "name": "<%= Rails.application.config.brand['name'] %>",
+  "description": "<%= Rails.application.config.brand['name'] %> is a customer support tool for instant messaging channels",
+  "website": "<%= Rails.application.config.brand['website'] %>",
+  "repository": "<%= Rails.application.config.brand['repository'] %>",
+  "logo": "<%= Rails.application.config.brand['logo_thumbnail'] %>",
   "keywords": [
     "live chat",
     "customer support",
