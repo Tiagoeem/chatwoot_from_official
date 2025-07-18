@@ -106,7 +106,10 @@ const newReportRoutes = () => [
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
-  return [
+  const { hidden_items: hiddenItems = [] } =
+    window.globalConfig.SIDEBAR_MENU || {};
+
+  const allMenuItems = [
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
@@ -483,6 +486,12 @@ const menuItems = computed(() => {
       ],
     },
   ];
+
+  if (!hiddenItems.length) {
+    return allMenuItems;
+  }
+
+  return allMenuItems.filter(item => !hiddenItems.includes(item.name));
 });
 </script>
 

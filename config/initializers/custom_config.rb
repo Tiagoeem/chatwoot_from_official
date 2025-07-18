@@ -12,4 +12,8 @@ if File.exist?(custom_config_file)
   if custom_config && custom_config['theme']
     Rails.application.config.theme = custom_config['theme']
   end
+
+  if custom_config && custom_config['sidebar_menu']
+    Rails.application.config.sidebar_menu = custom_config['sidebar_menu']
+  end
 end

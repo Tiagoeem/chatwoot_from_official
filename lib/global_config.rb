@@ -71,6 +71,8 @@ class GlobalConfig
       end
       when 'FAVICON'
         Rails.application.config.brand['favicon'] if Rails.application.config.respond_to?(:brand)
+      when 'SIDEBAR_MENU'
+        Rails.application.config.sidebar_menu if Rails.application.config.respond_to?(:sidebar_menu)
       end
     end
   end
