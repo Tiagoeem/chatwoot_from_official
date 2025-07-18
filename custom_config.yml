@@ -3,22 +3,22 @@ brand:
   logo: "/brand-assets/logo.svg"
   logo_dark: "/brand-assets/logo_dark.svg"
   logo_thumbnail: "/brand-assets/logo_thumbnail.svg"
-  website: "https://www.seusite.com"
-  repository: "https://github.com/seu-usuario/seu-repositorio"
+  website: "https://www.omnitrade.com.br"
+  repository: "https://github.com/Tiagoeem/chatwoot_from_official"
   favicon: "/favicon.ico"
 
 theme:
   colors:
     woot:
-      25: "#f0f7ff"
-      50: "#e0efff"
-      75: "#cce7ff"
-      100: "#b8deff"
-      200: "#a3d5ff"
-      300: "#7bc4ff"
-      400: "#52b3ff"
-      500: "#29a1ff"
-      600: "#008fff"
-      700: "#007de6"
-      800: "#006ccc"
-      900: "#005ab3"
+      25: "#faf5f0" # Fundo bege
+      50: "#f5f0eb"
+      75: "#f0ebe6"
+      100: "#ebe6e1"
+      200: "#e6e1dc"
+      300: "#e1dcd7"
+      400: "#dcd7d2"
+      500: "#d7d2cd"
+      600: "#d2cdc8"
+      700: "#cdc8c3"
+      800: "#c8c3be"
+      900: "#7c726f" # Cinza mais escuro
