@@ -1,8 +1,8 @@
 brand:
   name: "OmniTrade"
-  logo: "/brand-assets/logo.svg"
-  logo_dark: "/brand-assets/logo_dark.svg"
-  logo_thumbnail: "/brand-assets/logo_thumbnail.svg"
+  logo: "/brand-assets/logo.png"
+  logo_dark: "/brand-assets/logo_dark.png"
+  logo_thumbnail: "/brand-assets/logo_thumbnail.png"
   website: "https://www.omnitrade.com.br"
   repository: "https://github.com/Tiagoeem/chatwoot_from_official"
   favicon: "/favicon.ico"
