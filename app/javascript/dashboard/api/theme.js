@@ -1,4 +1,4 @@
-import APIClient from './APIClient';
+import APIClient from 'dashboard/api/ApiClient';
 
 class ThemeAPI extends APIClient {
   constructor() {
