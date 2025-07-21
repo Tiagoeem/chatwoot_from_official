@@ -1,29 +1,18 @@
-import { mapGetters } from 'vuex';
-
 export default {
-  computed: {
-    ...mapGetters({
-      themeColors: 'globalConfig/themeColors',
-    }),
-  },
-  watch: {
-    themeColors: {
-      handler(newColors) {
-        if (newColors) {
-          this.applyTheme(newColors);
-        }
-      },
-      immediate: true,
-    },
+  mounted() {
+    this.applyTheme();
   },
   methods: {
-    applyTheme(colors) {
-      const root = document.documentElement;
-      Object.keys(colors).forEach(theme => {
-        Object.keys(colors[theme]).forEach(key => {
-          root.style.setProperty(`--${theme}-${key}`, colors[theme][key]);
+    applyTheme() {
+      const themeConfig = window.themeConfig;
+      if (themeConfig && themeConfig.colors) {
+        const root = document.documentElement;
+        Object.keys(themeConfig.colors).forEach(theme => {
+          Object.keys(themeConfig.colors[theme]).forEach(key => {
+            root.style.setProperty(`--${theme}-${key}`, themeConfig.colors[theme][key]);
+          });
         });
-      });
+      }
     },
   },
 };
